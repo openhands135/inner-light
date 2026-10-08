@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Inner Light - a daily reflection and emotional wellness companion prototype.">
+<title>Inner Light — Daily Wellness Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f5ef;--card:#fffdf8;--ink:#26332d;--muted:#718078;--accent:#6d8f7c;
+  --accent2:#c99b61;--line:#e7e3d9;--soft:#eaf1eb;--shadow:0 18px 50px rgba(48,63,54,.09);
+}
+*{box-sizing:border-box} body{margin:0;background:linear-gradient(135deg,#f8f7f1,#eef4ef);
+font-family:"DM Sans",sans-serif;color:var(--ink)} button,input,textarea{font:inherit}
+button{cursor:pointer;border:0}.app{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+.sidebar{background:#263b32;color:white;padding:28px 20px;position:sticky;top:0;height:100vh}
+.logo{font-family:"Playfair Display";font-size:28px;margin-bottom:6px}.tag{color:#c8d8cf;font-size:12px;margin-bottom:36px}
+.nav button{display:block;width:100%;text-align:left;padding:13px 14px;margin:5px 0;background:transparent;color:#dfeae4;border-radius:12px}
+.nav button.active,.nav button:hover{background:#3a5549;color:white}.side-note{position:absolute;bottom:25px;left:20px;right:20px;background:#334d42;border-radius:16px;padding:14px;font-size:12px;color:#dbe7e0}
+main{padding:38px;max-width:1250px;width:100%;margin:auto}.pagebar{display:flex;align-items:center;gap:12px;margin-bottom:20px}.backbtn{background:var(--soft);color:var(--ink);border:1px solid var(--line);padding:9px 13px;border-radius:12px;font-weight:600}.theme-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.swatch{width:25px;height:25px;border-radius:50%;border:2px solid white;box-shadow:0 0 0 1px var(--line);padding:0}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
+.eyebrow{text-transform:uppercase;letter-spacing:2px;font-size:11px;color:var(--accent);font-weight:700}.date{color:var(--muted);font-size:13px}
+h1,h2,h3{font-family:"Playfair Display",serif;margin:5px 0 10px}h1{font-size:42px}.subtitle{color:var(--muted);max-width:650px}
+.hero{background:linear-gradient(120deg,#e2eee7,#f7ead9);border:1px solid var(--line);border-radius:28px;padding:30px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero:after{content:"✦";position:absolute;right:35px;top:18px;font-size:100px;color:#ffffff66}.hero p{font-size:19px;line-height:1.6;max-width:720px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:20px}.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}
+.card h3{font-size:21px}.small{font-size:13px;color:var(--muted);line-height:1.6}.btn{background:var(--accent);color:white;padding:11px 16px;border-radius:12px;font-weight:600}.btn.alt{background:#efe5d6;color:#604b31}.btn.ghost{background:var(--soft);color:#365347}.row{display:flex;gap:9px;flex-wrap:wrap}
+.moods{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}.mood{background:#f5f6f1;border:1px solid var(--line);padding:13px 5px;border-radius:15px;text-align:center}.mood span{font-size:25px;display:block}.mood:hover{transform:translateY(-2px);background:#edf3ee}
+.quote{font-family:"Playfair Display";font-size:25px;line-height:1.45}.section{display:none}.section.active{display:block}
+textarea{width:100%;min-height:260px;border:1px solid var(--line);border-radius:16px;padding:16px;background:#fffefb;resize:vertical;outline:none}
+input{border:1px solid var(--line);border-radius:12px;padding:11px;background:#fffefb;outline:none}
+.chat{height:430px;display:flex;flex-direction:column}.messages{flex:1;overflow:auto;padding:5px}.msg{max-width:78%;padding:11px 14px;border-radius:16px;margin:8px 0;line-height:1.5}.bot{background:#eaf1eb}.user{background:#334d42;color:white;margin-left:auto}.chatbar{display:flex;gap:8px;margin-top:10px}.chatbar input{flex:1}.voicebtn{background:#efe5d6;color:#604b31;padding:10px 12px;border-radius:12px}.voice-status{font-size:12px;color:var(--muted);margin-top:5px}
+.sound{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}.sound:last-child{border-bottom:0}.toggle{background:#eaf1eb;border-radius:999px;padding:8px 12px;color:#365347}
+.notice{font-size:12px;color:var(--muted);margin-top:18px;padding:12px;border-left:3px solid var(--accent2)}
+.fieldlabel{display:block;font-size:13px;font-weight:700;margin:10px 0 6px}.field{width:100%;max-width:100%;border:1px solid var(--line);border-radius:12px;padding:11px;background:#fffefb}.diaryentry{border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:10px;background:#fffefb}.diaryentry p{white-space:pre-wrap;overflow-wrap:anywhere}.pill{display:inline-block;border-radius:99px;background:var(--soft);padding:4px 9px;font-size:11px;color:var(--ink)}.recordstatus{font-size:13px;color:var(--muted);margin-top:8px}
+@media(max-width:850px){.app{display:block}.sidebar{position:relative;height:auto}.nav{display:flex;overflow:auto}.nav button{min-width:125px}.side-note{display:none}main{padding:22px}.grid{grid-template-columns:1fr}.moods{grid-template-columns:repeat(3,1fr)}h1{font-size:34px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="logo">✦ Inner Light</div>
+  <div class="tag">A daily space to pause, reflect & breathe.</div>
+  <nav class="nav">
+    <button class="active" data-page="home">🏠 Home</button>
+    <button data-page="mood">💭 Mood Check</button>
+    <button data-page="diary">📔 My Diary</button>
+    <button data-page="challenge">🌱 Kindness Challenge</button>
+    <button data-page="bodyimage">💗 Body & Self-Worth</button>
+    <button data-page="explore">🌿 Explore</button>
+    <button data-page="sounds">🎵 Calm Room</button>
+    <button data-page="care">🫶 Calm & Care</button>
+    <button data-page="chat">💬 Talk</button>
+    <button data-page="settings">🎨 Appearance</button>
+  </nav>
+  <div class="side-note">Your private reflections stay in this browser in this prototype.</div>
+</aside>
+
+<main>
+<div class="pagebar"><button class="backbtn" onclick="goBack()">← Back</button><span class="small" id="pageLabel">Home</span><div style="margin-left:auto" class="theme-tools"><span class="small">Colour:</span><button class="swatch" style="background:#6d8f7c" aria-label="Sage theme" onclick="setTheme('sage')"></button><button class="swatch" style="background:#8a78b8" aria-label="Lavender theme" onclick="setTheme('lavender')"></button><button class="swatch" style="background:#c47c70" aria-label="Rose theme" onclick="setTheme('rose')"></button><button class="swatch" style="background:#4c8291" aria-label="Ocean theme" onclick="setTheme('ocean')"></button></div></div>
+<section id="home" class="section active">
+  <div class="top"><div><div class="eyebrow">Today</div><h1>Come back to yourself.</h1><div class="subtitle">A gentle daily companion for reflection, encouragement and moments of calm.</div></div><div class="date" id="date"></div></div>
+  <div class="hero"><div class="eyebrow">Today's reflection</div><p id="heroQuote"></p><button class="btn" onclick="showPage('mood')">Check in with me →</button></div>
+  <div class="grid">
+    <div class="card"><h3>💭 How are you?</h3><div class="small">A one-minute emotional check-in.</div><div class="moods" id="miniMoods"></div></div>
+    <div class="card"><h3>🌱 Today's affirmation</h3><div class="quote" id="affirmation"></div><button class="btn ghost" onclick="newAffirmation()">Another one</button></div>
+    <div class="card"><h3>📔 Journal prompt</h3><p id="prompt"></p><button class="btn alt" onclick="showPage('diary')">Write today</button></div>
+  </div>
+</section>
+
+<section id="mood" class="section">
+  <div class="eyebrow">Emotional check-in</div><h1>How are you feeling?</h1><p class="subtitle">There is no right answer. Choose what feels closest right now.</p>
+  <div class="card"><div class="moods" id="allMoods"></div><div id="moodReply" style="margin-top:20px"></div></div>
+</section>
+
+<section id="challenge" class="section">
+  <div class="eyebrow">Small acts of self-kindness</div><h1>Kindness Challenge</h1>
+  <p class="subtitle">This is not a test or a streak to feel guilty about. Choose one small way to care for yourself, then record what you did in your own words. Every honest effort counts.</p>
+  <div class="hero"><div class="eyebrow">Your challenge</div><p class="quote" id="challengePromptText">Be kind to yourself today.</p><p class="small" id="challengeModeSummary">A gentle daily practice. You can change your challenge at any time.</p></div>
+  <div class="grid">
+    <div class="card"><h3>🌿 Choose your practice</h3>
+      <label class="fieldlabel" for="challengeLength">Challenge length</label><select class="field" id="challengeLength"><option value="daily">One day — today's kindness</option><option value="weekly">Seven days — a week of kindness</option></select>
+      <label class="fieldlabel" for="challengePromptSelect">Your focus</label><select class="field" id="challengePromptSelect" class="field"><option>Be kind to yourself today.</option><option>Give yourself permission to rest.</option><option>Speak to yourself as you would to a friend.</option><option>Set one gentle boundary.</option><option>Notice something your body helps you do, without judging its appearance.</option><option>Ask for help or accept support.</option><option>Make time for something that brings you comfort.</option></select>
+      <button class="btn" style="margin-top:14px" onclick="startKindnessChallenge()">Start or restart challenge</button>
+      <p class="small">Starting a new challenge changes the start date and focus; your past reflections remain saved.</p>
+    </div>
+    <div class="card"><h3>✍️ How were you kind to yourself?</h3><p class="small">There is no act too small. Maybe you took a break, ate when you were hungry, said no, asked for support, or rested without earning it.</p>
+      <label class="fieldlabel" for="kindnessEntry">Today's reflection</label><textarea id="kindnessEntry" style="min-height:150px" placeholder="Today I was kind to myself by…"></textarea>
+      <button class="btn" style="margin-top:12px" onclick="saveKindnessEntry()">Save today's reflection</button><p id="kindnessSaveStatus" class="small" aria-live="polite"></p>
+    </div>
+    <div class="card"><h3>📅 Your progress</h3><div class="quote" id="challengeProgress">0 of 1 days</div><div style="height:10px;background:var(--soft);border-radius:99px;overflow:hidden;margin:14px 0"><div id="challengeProgressBar" style="height:100%;width:0%;background:var(--accent);transition:width .3s"></div></div><p class="small" id="challengeProgressNote">Your progress is a record of care, not a measure of your worth.</p></div>
+  </div>
+  <div class="card" style="margin-top:18px"><h3>🌼 Reflections from your challenge</h3><div id="kindnessHistory"><p class="small">Your reflections will appear here after you save one.</p></div></div>
+</section>
+
+<section id="diary" class="section">
+  <div class="eyebrow">Private reflection</div><h1>My Diary</h1><p class="subtitle">Choose the way that feels easiest today: write your thoughts or record your voice. Your entries stay on this device in this prototype.</p>
+  <div class="card"><h3 id="diaryPrompt"></h3>
+    <label class="fieldlabel" for="diaryTitle">Entry title (optional)</label><input class="field" id="diaryTitle" placeholder="A little title for today">
+    <div class="row" style="margin:14px 0"><button class="btn" id="writeModeBtn" onclick="setDiaryMode('write')">✍️ Write a journal</button><button class="btn ghost" id="voiceModeBtn" onclick="setDiaryMode('voice')">🎙 Voice diary</button></div>
+    <div id="writeDiaryPanel"><label class="fieldlabel" for="diaryText">Your words</label><textarea id="diaryText" placeholder="What is on your heart today?"></textarea><div class="row" style="margin-top:12px"><button class="btn" onclick="saveDiary()">Save written entry</button><button class="btn ghost" onclick="clearDiary()">Clear text</button></div></div>
+    <div id="voiceDiaryPanel" style="display:none"><p class="small">Record a voice note in your own words. You can stop and listen before saving it. Your browser may ask for microphone permission.</p><div class="row"><button class="btn" id="recordBtn" onclick="startDiaryRecording()">● Start recording</button><button class="btn ghost" id="stopRecordBtn" onclick="stopDiaryRecording()" disabled>Stop recording</button></div><p id="recordStatus" class="recordstatus">No recording in progress.</p><audio id="recordPreview" controls style="display:none;width:100%;margin-top:10px"></audio><div class="row" style="margin-top:12px"><button class="btn" id="saveVoiceBtn" onclick="saveVoiceDiary()" disabled>Save voice entry</button></div></div>
+    <div id="saveMsg" class="small" style="margin-top:12px"></div>
+  </div>
+  <div class="card" style="margin-top:18px"><h3>📚 Previous entries</h3><p class="small">Written entries and voice notes saved on this device appear here.</p><div id="diaryEntries"><p class="small">No entries saved yet.</p></div></div>
+</section>
+
+<section id="bodyimage" class="section">
+  <div class="eyebrow">Body image & self-worth</div><h1>You are more than how you look.</h1>
+  <p class="subtitle">Society, social media, trends, and other people's opinions can shape how we see ourselves. This space invites you to question those messages—not to change your body, but to treat yourself with more respect and freedom.</p>
+  <div class="hero"><div class="eyebrow">A reminder</div><p id="bodyImageQuote" class="quote">Your worth was never meant to be measured by how closely you match someone else's idea of beauty.</p><button class="btn" onclick="newBodyImageQuote()">A different reminder</button></div>
+  <div class="grid">
+    <div class="card"><h3>🪞 Notice the messages</h3><p class="small">Beauty standards change across time and cultures. Popularity does not make a standard a rule you must follow.</p><p>Ask yourself: <b>Whose voice am I hearing when I criticise how I look?</b></p></div>
+    <div class="card"><h3>🌱 Move toward body respect</h3><p class="small">You do not have to love every part of your appearance every day. You can begin with neutrality: your body deserves care, comfort, and respect.</p><p>Try: <b>“I can be kind to myself even when I feel uncomfortable about how I look.”</b></p></div>
+    <div class="card"><h3>📱 Curate what you see</h3><p class="small">Notice which accounts or comments leave you feeling judged or less-than. You can mute, unfollow, take a break, or choose content that supports a wider and kinder view of people.</p></div>
+  </div>
+  <div class="card" style="margin-top:18px"><h3>✍️ Reflect gently</h3><p class="small">There is no right answer. You can reflect privately without sharing it.</p><label class="fieldlabel" for="bodyPromptSelect">Choose a reflection prompt</label><select id="bodyPromptSelect" class="field" onchange="showBodyPrompt()"><option value="0">What have I been taught about beauty?</option><option value="1">What would I say to a friend feeling this way?</option><option value="2">What matters to me beyond appearance?</option><option value="3">What boundary could help me feel safer online?</option></select><p id="bodyPromptText" style="line-height:1.7">Who taught me what a “good” or “acceptable” appearance is? Which of those messages do I actually agree with?</p><button class="btn" onclick="journalBodyPrompt()">Reflect in my diary</button>
+  </div>
+  <div class="notice">Inner Light will not rate bodies, compare users, or tell anyone they need to change their appearance. If worries about appearance are affecting daily life, talking with a trusted person or qualified counsellor can help.</div>
+</section>
+
+<section id="explore" class="section">
+  <div class="eyebrow">Explore</div><h1>Little things for the soul.</h1>
+  <div class="grid">
+    <div class="card"><h3>✨ Affirmations</h3><p id="exploreAffirmation" class="quote"></p><button class="btn" onclick="newAffirmation(true)">Refresh</button></div>
+    <div class="card"><h3>🙏 Spiritual reflection</h3><p id="spiritual"></p><button class="btn ghost" onclick="newSpiritual()">Another reflection</button></div>
+    <div class="card"><h3>🌙 Stars & planets</h3><p><b>Daily cosmic reflection</b></p><p id="astro"></p><div class="small">Astrology is presented as reflection and entertainment, not scientific prediction.</div></div>
+  </div>
+</section>
+
+<section id="sounds" class="section">
+  <div class="eyebrow">Relaxation</div><h1>Calm Room</h1><p class="subtitle">Try a gentle soundscape. These prototype sounds are generated in your browser.</p>
+  <div class="card" id="soundList"></div>
+  <div class="notice">For the full product, replace these prototypes with properly licensed high-quality recordings.</div>
+</section>
+
+<section id="care" class="section">
+  <div class="eyebrow">Calm & Care</div><h1>Pause. Breathe. Ground.</h1><p class="subtitle">Gentle tools for anxious, tense or overwhelming moments.</p>
+  <div class="grid">
+    <div class="card"><h3>🌬️ One-minute breathing</h3><p class="small">Breathe in gently for 4 seconds, then out slowly for 6 seconds. Keep it comfortable; don't force your breath.</p><div id="breathCircle" style="width:120px;height:120px;border-radius:50%;background:var(--soft);margin:20px auto;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:600">Ready</div><div style="text-align:center"><button class="btn" onclick="startBreathing()">Start</button><button class="btn ghost" onclick="stopBreathing()">Stop</button></div><p id="breathStatus" class="small" style="text-align:center"></p></div>
+    <div class="card"><h3>🧭 Grounding: 5–4–3–2–1</h3><p>Gently notice 5 things you see, 4 things you feel, 3 things you hear, 2 things you smell, and 1 thing you taste or imagine tasting.</p><button class="btn ghost" onclick="groundingPrompt()">Guide me</button><p id="groundingText" class="small"></p></div>
+    <div class="card"><h3>🫶 When emotions feel strong</h3><p class="small">Sit somewhere comfortable, relax your shoulders, breathe naturally, and choose one small next step. Contact someone you trust if you need support.</p><p class="notice">These are general calming tools, not emergency treatment. If you feel unsafe, seek immediate help from a trusted person nearby or local emergency services.</p></div>
+  </div><div class="card" style="margin-top:18px"><h3>🌿 Body kindness</h3><p class="small">Body-neutral encouragement: no ratings, comparisons, or rules about how anyone should look.</p><div class="quote" id="bodyQuote"></div><button class="btn ghost" onclick="newBodyQuote()">Another message</button></div>
+</section>
+<section id="settings" class="section"><div class="eyebrow">Make it yours</div><h1>Choose your colours.</h1><p class="subtitle">Pick the theme that feels comfortable to you. Your choice is saved on this device.</p><div class="card" style="margin-bottom:18px"><h3>🔔 Gentle reminders</h3><p class="small">Choose a daily reminder for a mood check-in, journaling, or a moment of calm. Notifications in this prototype work only while the page is open and supported by your browser. A hosted version needs additional setup for reliable reminders when closed.</p><label class="fieldlabel" for="reminderTime">Reminder time</label><input id="reminderTime" type="time" class="field" value="20:00"><label style="display:flex;gap:9px;align-items:center;margin:12px 0"><input id="reminderEnabled" type="checkbox" style="width:auto"> Enable daily reminder</label><div class="row"><button class="btn" onclick="enableReminders()">Save reminder settings</button><button class="btn ghost" onclick="sendTestNotification()">Test notification</button></div><p id="notificationStatus" class="small" aria-live="polite"></p></div>
+<div class="card" style="margin-bottom:18px"><h3>♿ Comfort & accessibility</h3><p class="small">Adjust the display to suit your comfort. Your setting stays on this device.</p><div class="row"><button class="btn ghost" onclick="setDisplayScale(1)">Standard text</button><button class="btn ghost" onclick="setDisplayScale(1.1)">Larger text</button><button class="btn ghost" onclick="setDisplayScale(1.2)">Largest text</button></div><label class="fieldlabel" for="contentPreference">What would you like to see more often?</label><select class="field" id="contentPreference" onchange="saveContentPreference()"><option value="balanced">A balanced mix</option><option value="body">Body kindness & self-worth</option><option value="calm">Calming tools & breathing</option><option value="reflection">Journaling & reflection</option><option value="spiritual">Spiritual reflections</option></select><p id="preferenceStatus" class="small"></p></div>
+<div class="card" style="margin-bottom:18px"><h3>🔐 Your information</h3><p class="small">Your prototype stores written diary entries and challenge reflections in this browser on this device. Voice recordings stay in this browser's local storage too. This is not a secure cloud account, and clearing browser data may remove your entries.</p><div class="row"><button class="btn" onclick="exportMyData()">Export written diary & challenge data</button><button class="btn ghost" onclick="clearAllLocalData()">Delete local app data</button></div><p id="privacyStatus" class="small" aria-live="polite"></p></div><div class="grid">
+<div class="card"><h3>🌿 Sage</h3><p class="small">Soft green and warm cream.</p><button class="btn" onclick="setTheme('sage')">Use Sage</button></div><div class="card"><h3>💜 Lavender</h3><p class="small">Gentle purple and lilac.</p><button class="btn" onclick="setTheme('lavender')">Use Lavender</button></div><div class="card"><h3>🌸 Rose</h3><p class="small">Muted rose and blush.</p><button class="btn" onclick="setTheme('rose')">Use Rose</button></div><div class="card"><h3>🌊 Ocean</h3><p class="small">Calm blue and mist.</p><button class="btn" onclick="setTheme('ocean')">Use Ocean</button></div></div></section>
+<section id="chat" class="section">
+  <div class="eyebrow">Your companion</div><h1>Talk with me</h1><p class="subtitle">A gentle conversational space. This prototype uses simple supportive replies; a production version can connect a secure AI service.</p>
+  <div class="card chat"><div class="messages" id="messages"><div class="msg bot">I'm here to listen. You can tell me what kind of day you're having, or simply say hello.</div></div><div class="chatbar"><input id="chatInput" placeholder="Type what's on your mind..." onkeydown="if(event.key==='Enter')sendChat()"><button class="voicebtn" onclick="startVoiceInput()" title="Speak instead of typing">🎙 Voice</button><button class="btn" onclick="sendChat()">Send</button></div><div id="voiceStatus" class="voice-status"></div></div>
+  <div class="notice">The companion should not present itself as a human counsellor or replace professional or emergency support.</div>
+</section>
+</main>
+</div>
+
+<script>
+const quotes=[
+"Your difficult season is not the whole story. There can still be gentle moments ahead.",
+"Small steps count. You do not have to solve everything today.",
+"Give yourself the same patience you would give someone you deeply care about.",
+"Rest is not failure. Sometimes quiet is where strength gathers.",
+"You are allowed to begin again, even if yesterday was difficult."
+];
+const affirmations=[
+"I can take today one small step at a time.",
+"My feelings are real, and I can respond to them with kindness.",
+"I deserve moments of peace and space to breathe.",
+"I do not need every answer today.",
+"I can ask for support when I need it.",
+"There is room in my life for hope, growth and new beginnings."
+];
+const prompts=["What is on your heart today?","What made you smile, even for a moment?","What do you need more of today?","What would you like to release before you sleep?","What is one thing you are grateful for today?"];
+const moods=[["😊","Happy"],["😌","Peaceful"],["😔","Sad"],["😟","Worried"],["😡","Angry"],["😞","Lonely"],["😴","Tired"],["❤️","Grateful"],["😰","Overwhelmed"],["😐","Confused"]];
+const replies={
+"Happy":"Enjoy this moment without rushing past it. What is one thing you would like to remember about today?",
+"Peaceful":"Protect this little pocket of peace. Breathe slowly and allow yourself to simply be.",
+"Sad":"It is okay to acknowledge that today feels heavy. Be gentle with yourself and consider reaching out to someone you trust.",
+"Worried":"You do not have to solve every possible future problem right now. Come back to what you can do in this moment.",
+"Angry":"Your feelings deserve space, and you can choose a safe way to express them. Give yourself a little distance before responding.",
+"Lonely":"Feeling lonely can be painful. Consider one small connection today—a message, a call, or time with someone safe.",
+"Tired":"Your body and mind may be asking for care. If possible, slow down and give yourself a real break.",
+"Grateful":"Let yourself notice what is going well. Gratitude can be small: a person, a meal, a sound, or a quiet moment.",
+"Overwhelmed":"Pause. Choose only the next small step. You do not need to carry the entire day at once.",
+"Confused":"It is okay not to know yet. Write down what you do know, then give yourself time before making big decisions."
+};
+const bodyQuotes=["Your body deserves care and respect without having to earn it.","You are more than a reflection, a photograph, a number, or another person's opinion.","You do not need to compare your body with anyone else's. Your worth is not a competition.","Your body is not a problem to solve; you deserve kindness while you live your life.","Speak to yourself with the same kindness you would offer a friend."];
+const themes={sage:{accent:'#6d8f7c',soft:'#eaf1eb',side:'#263b32'},lavender:{accent:'#8876b5',soft:'#f0ecfa',side:'#403653'},rose:{accent:'#bd7a78',soft:'#faeeee',side:'#50383b'},ocean:{accent:'#4c8291',soft:'#e8f3f6',side:'#263e48'}};
+let pageStack=['home'];
+const spirituals=[
+"May you find wisdom for what you can change, patience for what you cannot, and courage for the next step.",
+"May your heart find a quiet place today, and may you remember that asking for support is also a form of strength.",
+"Take a slow breath. Let this moment remind you that you are here, you are growing, and you can begin again."
+];
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function renderMoods(id){document.getElementById(id).innerHTML=moods.map(m=>`<button class="mood" onclick="chooseMood('${m[1]}')"><span>${m[0]}</span><small>${m[1]}</small></button>`).join("")}
+function chooseMood(m){document.getElementById("moodReply").innerHTML=`<div class="card" style="background:#eef4ef"><h3>You chose: ${m}</h3><p>${replies[m]}</p><div class="row"><button class="btn" onclick="showPage('diary')">Journal about it</button><button class="btn ghost" onclick="showPage('sounds')">Play a calming sound</button></div></div>`; localStorage.setItem("lastMood",m)}
+function showPage(id){const current=document.querySelector('.section.active')?.id;if(current!==id){pageStack.push(id)};activatePage(id)}
+function activatePage(id){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));const target=document.getElementById(id);if(!target)return;target.classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));document.getElementById('pageLabel').textContent=target.querySelector('h1')?.textContent||'Inner Light';window.scrollTo({top:0,behavior:'smooth'})}
+function goBack(){if(pageStack.length>1)pageStack.pop();const previous=pageStack[pageStack.length-1]||'home';activatePage(previous)}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>showPage(b.dataset.page));
+function setTheme(name){const t=themes[name]||themes.sage;document.documentElement.style.setProperty('--accent',t.accent);document.documentElement.style.setProperty('--soft',t.soft);document.querySelector('.sidebar').style.background=t.side;localStorage.setItem('innerLightTheme',name)}
+function newBodyQuote(){document.getElementById('bodyQuote').textContent=pick(bodyQuotes)}
+function groundingPrompt(){document.getElementById('groundingText').textContent='Start with 5 things you can see. Take your time, then gently move through touch, sounds, smells and taste. You can stop whenever you want.'}
+let breathTimer=null, breathTimeout=null;
+function startBreathing(){stopBreathing();const circle=document.getElementById('breathCircle'),status=document.getElementById('breathStatus');const phases=[['Breathe in',4],['Breathe out',6]];let phase=0,remaining=4;function tick(){circle.textContent=phases[phase][0]+' '+remaining;status.textContent='Keep it gentle. Return to normal breathing if you feel dizzy or uncomfortable.';remaining--;if(remaining<0){phase=(phase+1)%2;remaining=phases[phase][1]}}tick();breathTimer=setInterval(tick,1000);breathTimeout=setTimeout(stopBreathing,60000)}
+function stopBreathing(){if(breathTimer)clearInterval(breathTimer);if(breathTimeout)clearTimeout(breathTimeout);breathTimer=null;breathTimeout=null;const c=document.getElementById('breathCircle');if(c)c.textContent='Paused';const s=document.getElementById('breathStatus');if(s)s.textContent='Let your breathing return to its natural rhythm.'}
+function startVoiceInput(){const status=document.getElementById('voiceStatus'),input=document.getElementById('chatInput');const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){status.textContent='Voice typing is not supported in this browser. Try Chrome, or use your device keyboard microphone.';return}const recognition=new SR();recognition.lang=navigator.language||'en-US';recognition.interimResults=false;recognition.maxAlternatives=1;status.textContent='Listening… speak clearly. Your browser may ask for microphone permission.';recognition.onresult=e=>{input.value=(input.value+' '+e.results[0][0].transcript).trim();status.textContent='Voice captured. You can edit your words before sending.'};recognition.onerror=()=>status.textContent='Could not capture speech. Check microphone permission or type your message.';recognition.onend=()=>{if(status.textContent==='Listening… speak clearly. Your browser may ask for microphone permission.')status.textContent='Listening stopped.'};recognition.start()}
+function newAffirmation(explore=false){let a=pick(affirmations);document.getElementById(explore?"exploreAffirmation":"affirmation").textContent=a;if(!explore)document.getElementById("exploreAffirmation").textContent=a}
+function newSpiritual(){document.getElementById("spiritual").textContent=pick(spirituals)}
+function saveDiary(){localStorage.setItem("diary",document.getElementById("diaryText").value);document.getElementById("saveMsg").textContent="Saved on this device. Your prototype does not send this entry to a server."}
+function clearDiary(){document.getElementById("diaryText").value="";document.getElementById("saveMsg").textContent=""}
+function sendChat(){let i=document.getElementById("chatInput"),v=i.value.trim();if(!v)return;addMsg(v,"user");i.value="";setTimeout(()=>{let low=v.toLowerCase();let r=low.includes("sad")||low.includes("lonely")?"I'm sorry you're having a hard moment. You can take this one step at a time. If you want, tell me a little more about what happened.":low.includes("happy")?"I'm glad there is some light in your day. What would you like to celebrate or remember?":"Thank you for sharing that with me. You don't have to put everything into perfect words. What feels most important about it right now?";addMsg(r,"bot")},350)}
+function addMsg(t,c){let d=document.createElement("div");d.className="msg "+c;d.textContent=t;document.getElementById("messages").appendChild(d);document.getElementById("messages").scrollTop=99999}
+let audioCtx=null, oscillators=[];
+function stopSound(){oscillators.forEach(o=>{try{o.stop()}catch(e){}});oscillators=[]}
+function playSound(type){stopSound();audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.type=type==="fire"?"triangle":"sine";o.frequency.value=type==="rain"?180:type==="river"?110:type==="forest"?320:type==="fire"?75:220;g.gain.value=.035;o.start();oscillators.push(o);if(type==="rain"){let n=audioCtx.createBufferSource();let b=audioCtx.createBuffer(1,audioCtx.sampleRate*2,audioCtx.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*.08;n.buffer=b;n.loop=true;n.connect(g);n.start();oscillators.push(n)}}
+function renderSounds(){let sounds=[["🌧️","Rain","rain"],["🌊","River","river"],["🌲","Forest birds","forest"],["🔥","Fireplace","fire"],["🥁","Gentle drums","drums"],["🎹","Soft instrument","music"]];document.getElementById("soundList").innerHTML=sounds.map(s=>`<div class="sound"><div><b>${s[0]} ${s[1]}</b><div class="small">Prototype soundscape</div></div><button class="toggle" onclick="playSound('${s[2]}')">Play</button></div>`).join("")}
+
+const bodyImageQuotes=[
+  "Your worth was never meant to be measured by how closely you match someone else's idea of beauty.",
+  "You are a whole person, not a picture to be judged.",
+  "You can question a beauty standard without questioning your value.",
+  "Your body deserves respect on days you feel confident and days you do not.",
+  "You do not owe the world a particular appearance to deserve kindness.",
+  "There is more to you than what a mirror, camera, trend, or stranger can show."
+];
+const bodyPrompts=[
+  "Who taught me what a ‘good’ or ‘acceptable’ appearance is? Which of those messages do I actually agree with?",
+  "If someone I care about felt this way about their appearance, what would I want them to know?",
+  "What qualities, relationships, values, skills, or experiences matter to me beyond appearance?",
+  "What boundary could help me feel safer or more at peace with what I see online?"
+];
+let diaryMode='write', diaryRecorder=null, diaryChunks=[], latestVoiceBlob=null, latestVoiceUrl=null;
+function setDiaryMode(mode){diaryMode=mode;document.getElementById('writeDiaryPanel').style.display=mode==='write'?'block':'none';document.getElementById('voiceDiaryPanel').style.display=mode==='voice'?'block':'none';document.getElementById('writeModeBtn').className=mode==='write'?'btn':'btn ghost';document.getElementById('voiceModeBtn').className=mode==='voice'?'btn':'btn ghost'}
+function getDiaryEntries(){try{return JSON.parse(localStorage.getItem('innerLightDiaryEntries')||'[]')}catch(e){return []}}
+function saveDiary(){const text=document.getElementById('diaryText').value.trim();if(!text){document.getElementById('saveMsg').textContent='Write a few words first, or choose Voice diary to record.';return}const entries=getDiaryEntries();entries.unshift({id:Date.now(),type:'written',title:document.getElementById('diaryTitle').value.trim()||'Written reflection',text,created:new Date().toISOString()});localStorage.setItem('innerLightDiaryEntries',JSON.stringify(entries));document.getElementById('saveMsg').textContent='Your written entry has been saved on this device.';document.getElementById('diaryText').value='';document.getElementById('diaryTitle').value='';renderDiaryEntries()}
+function clearDiary(){document.getElementById('diaryText').value='';document.getElementById('saveMsg').textContent='Text cleared. Nothing new was saved.'}
+function openDiaryDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open('InnerLightDiaryDB',1);req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains('voiceEntries'))req.result.createObjectStore('voiceEntries',{keyPath:'id'})};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
+async function startDiaryRecording(){if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!window.MediaRecorder){document.getElementById('recordStatus').textContent='Voice recording is not available here. Try a supported browser on HTTPS or localhost, or use the written diary.';return}try{const stream=await navigator.mediaDevices.getUserMedia({audio:true});diaryChunks=[];diaryRecorder=new MediaRecorder(stream);diaryRecorder.ondataavailable=e=>{if(e.data.size)diaryChunks.push(e.data)};diaryRecorder.onstop=()=>{latestVoiceBlob=new Blob(diaryChunks,{type:diaryRecorder.mimeType||'audio/webm'});if(latestVoiceUrl)URL.revokeObjectURL(latestVoiceUrl);latestVoiceUrl=URL.createObjectURL(latestVoiceBlob);const preview=document.getElementById('recordPreview');preview.src=latestVoiceUrl;preview.style.display='block';document.getElementById('saveVoiceBtn').disabled=false;document.getElementById('recordStatus').textContent='Recording ready. Listen to it, then save it if you want to keep it.';stream.getTracks().forEach(t=>t.stop())};diaryRecorder.start();document.getElementById('recordBtn').disabled=true;document.getElementById('stopRecordBtn').disabled=false;document.getElementById('saveVoiceBtn').disabled=true;document.getElementById('recordStatus').textContent='Recording… speak at a comfortable pace. Select Stop when finished.'}catch(e){document.getElementById('recordStatus').textContent='Microphone access was not available. Check browser permissions, or use the written diary.'}}
+function stopDiaryRecording(){if(diaryRecorder&&diaryRecorder.state!=='inactive'){diaryRecorder.stop();document.getElementById('recordBtn').disabled=false;document.getElementById('stopRecordBtn').disabled=true}}
+async function saveVoiceDiary(){if(!latestVoiceBlob){document.getElementById('recordStatus').textContent='Make a recording before saving.';return}try{const db=await openDiaryDB();const entry={id:Date.now(),type:'voice',title:document.getElementById('diaryTitle').value.trim()||'Voice reflection',blob:latestVoiceBlob,created:new Date().toISOString()};await new Promise((resolve,reject)=>{const tx=db.transaction('voiceEntries','readwrite');tx.objectStore('voiceEntries').put(entry);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)});db.close();document.getElementById('saveMsg').textContent='Your voice entry has been saved on this device.';document.getElementById('diaryTitle').value='';document.getElementById('recordPreview').style.display='none';document.getElementById('recordPreview').removeAttribute('src');latestVoiceBlob=null;if(latestVoiceUrl){URL.revokeObjectURL(latestVoiceUrl);latestVoiceUrl=null}document.getElementById('saveVoiceBtn').disabled=true;renderDiaryEntries()}catch(e){document.getElementById('recordStatus').textContent='This browser could not save the audio. You can try again or save a written entry.'}}
+async function deleteDiaryEntry(id,type){if(!confirm('Delete this entry from this device? This cannot be undone.'))return;if(type==='voice'){try{const db=await openDiaryDB();await new Promise((resolve,reject)=>{const tx=db.transaction('voiceEntries','readwrite');tx.objectStore('voiceEntries').delete(Number(id));tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)});db.close()}catch(e){alert('Could not delete this voice entry.')}}else{localStorage.setItem('innerLightDiaryEntries',JSON.stringify(getDiaryEntries().filter(e=>e.id!==Number(id))))}renderDiaryEntries()}
+async function renderDiaryEntries(){const host=document.getElementById('diaryEntries');if(!host)return;let entries=getDiaryEntries().map(e=>({...e,kind:'written'}));try{const db=await openDiaryDB();const voice=await new Promise((resolve,reject)=>{const tx=db.transaction('voiceEntries','readonly');const req=tx.objectStore('voiceEntries').getAll();req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)});db.close();entries=entries.concat(voice.map(e=>({...e,kind:'voice'})))}catch(e){}entries.sort((a,b)=>b.id-a.id);if(!entries.length){host.innerHTML='<p class="small">No entries saved yet.</p>';return}host.innerHTML='';entries.forEach(e=>{const card=document.createElement('div');card.className='diaryentry';const title=document.createElement('b');title.textContent=e.title||'Reflection';const meta=document.createElement('div');meta.className='small';meta.textContent=new Date(e.created).toLocaleString()+' · '+(e.kind==='voice'?'Voice recording':'Written entry');card.append(title,meta);if(e.kind==='voice'){const audio=document.createElement('audio');audio.controls=true;audio.style.width='100%';audio.style.marginTop='10px';audio.src=URL.createObjectURL(e.blob);card.append(audio)}else{const p=document.createElement('p');p.textContent=e.text;card.append(p)}const del=document.createElement('button');del.className='btn ghost';del.style.marginTop='8px';del.textContent='Delete entry';del.onclick=()=>deleteDiaryEntry(e.id,e.kind);card.append(del);host.append(card)})}
+function newBodyImageQuote(){document.getElementById('bodyImageQuote').textContent=pick(bodyImageQuotes)}
+function showBodyPrompt(){document.getElementById('bodyPromptText').textContent=bodyPrompts[Number(document.getElementById('bodyPromptSelect').value)||0]}
+function journalBodyPrompt(){const prompt=bodyPrompts[Number(document.getElementById('bodyPromptSelect').value)||0];showPage('diary');setDiaryMode('write');document.getElementById('diaryPrompt').textContent=prompt;document.getElementById('diaryText').value='Reflection prompt: '+prompt+'\n\n';document.getElementById('diaryText').focus()}
+let reminderInterval=null;
+function reminderConfig(){return {enabled:localStorage.getItem('innerLightReminderEnabled')==='true',time:localStorage.getItem('innerLightReminderTime')||'20:00',last:localStorage.getItem('innerLightReminderLast')||''}}
+async function enableReminders(){const enabled=document.getElementById('reminderEnabled').checked,time=document.getElementById('reminderTime').value||'20:00';localStorage.setItem('innerLightReminderEnabled',String(enabled));localStorage.setItem('innerLightReminderTime',time);const status=document.getElementById('notificationStatus');if(!enabled){status.textContent='Daily reminders are off.';return}if(!('Notification' in window)){status.textContent='This browser does not support notifications. You can still use your phone or calendar reminders.';return}try{const permission=Notification.permission==='granted'?'granted':await Notification.requestPermission();if(permission!=='granted'){status.textContent='Notifications were not allowed. You can enable them in browser settings.';return}status.textContent='Reminder saved for '+time+'. Keep this page open for the prototype reminder to work.';checkReminder();if(reminderInterval)clearInterval(reminderInterval);reminderInterval=setInterval(checkReminder,30000)}catch(e){status.textContent='Could not enable notifications here. Try again on a hosted HTTPS version.'}}
+function checkReminder(){const cfg=reminderConfig();if(!cfg.enabled||!('Notification'in window)||Notification.permission!=='granted')return;const now=new Date(),today=now.toISOString().slice(0,10);if(now.getHours()===Number(cfg.time.slice(0,2))&&now.getMinutes()===Number(cfg.time.slice(3,5))&&cfg.last!==today){new Notification('A gentle moment with Inner Light',{body:'Pause, check in with yourself, or write a few words in your diary.'});localStorage.setItem('innerLightReminderLast',today)}}
+async function sendTestNotification(){const status=document.getElementById('notificationStatus');if(!('Notification'in window)){status.textContent='Notifications are not supported by this browser.';return}try{const permission=Notification.permission==='granted'?'granted':await Notification.requestPermission();if(permission==='granted'){new Notification('Inner Light',{body:'A gentle reminder: you deserve a moment of care today.'});status.textContent='Test notification sent.'}else status.textContent='Notifications are blocked. Check your browser settings.'}catch(e){status.textContent='Notifications may need the site to be hosted over HTTPS.'}}
+function loadReminderSettings(){const cfg=reminderConfig();document.getElementById('reminderEnabled').checked=cfg.enabled;document.getElementById('reminderTime').value=cfg.time;if(cfg.enabled){if(reminderInterval)clearInterval(reminderInterval);reminderInterval=setInterval(checkReminder,30000)}}
+
+// Kindness challenge: one daily reflection, or a seven-day practice.
+const kindnessPrompts=["Be kind to yourself today.","Give yourself permission to rest.","Speak to yourself as you would to a friend.","Set one gentle boundary.","Notice something your body helps you do, without judging its appearance.","Ask for help or accept support.","Make time for something that brings you comfort."];
+function localDateKey(date=new Date()){return date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0')+'-'+String(date.getDate()).padStart(2,'0')}
+function getChallengeConfig(){try{return JSON.parse(localStorage.getItem('innerLightChallengeConfig')||'null')||{mode:'daily',startDate:localDateKey(),prompt:kindnessPrompts[0]}}catch(e){return {mode:'daily',startDate:localDateKey(),prompt:kindnessPrompts[0]}}}
+function getKindnessEntries(){try{return JSON.parse(localStorage.getItem('innerLightKindnessEntries')||'[]')}catch(e){return []}}
+function startKindnessChallenge(){const mode=document.getElementById('challengeLength').value;const prompt=document.getElementById('challengePromptSelect').value;const cfg={mode,startDate:localDateKey(),prompt};localStorage.setItem('innerLightChallengeConfig',JSON.stringify(cfg));document.getElementById('kindnessEntry').value='';document.getElementById('kindnessSaveStatus').textContent='Your new challenge has started. Your earlier reflections are kept.';renderKindnessChallenge()}
+function saveKindnessEntry(){const text=document.getElementById('kindnessEntry').value.trim();if(!text){document.getElementById('kindnessSaveStatus').textContent='Add a few words about how you cared for yourself today. Small actions count.';return}const cfg=getChallengeConfig(),entries=getKindnessEntries(),today=localDateKey();const existing=entries.findIndex(e=>e.date===today&&e.startDate===cfg.startDate);const entry={date:today,startDate:cfg.startDate,prompt:cfg.prompt,text,created:new Date().toISOString()};if(existing>=0)entries[existing]=entry;else entries.unshift(entry);localStorage.setItem('innerLightKindnessEntries',JSON.stringify(entries));document.getElementById('kindnessSaveStatus').textContent='Saved on this device. Thank you for showing yourself care.';renderKindnessChallenge()}
+function renderKindnessChallenge(){const cfg=getChallengeConfig(),today=localDateKey(),length=cfg.mode==='weekly'?7:1;document.getElementById('challengeLength').value=cfg.mode;document.getElementById('challengePromptSelect').value=cfg.prompt;document.getElementById('challengePromptText').textContent=cfg.prompt;document.getElementById('challengeModeSummary').textContent=(cfg.mode==='weekly'?'Seven-day challenge':'Daily challenge')+' · Started '+new Date(cfg.startDate+'T12:00:00').toLocaleDateString();const entries=getKindnessEntries();const relevant=entries.filter(e=>e.startDate===cfg.startDate&&e.date>=cfg.startDate&&e.date<=today);const days=[...new Set(relevant.map(e=>e.date))].length;const done=cfg.mode==='weekly'?Math.min(days,7):(relevant.some(e=>e.date===today)?1:0);document.getElementById('challengeProgress').textContent=done+' of '+length+' day'+(length===1?'':'s');document.getElementById('challengeProgressBar').style.width=Math.round(done/length*100)+'%';document.getElementById('challengeProgressNote').textContent=done===length?'You made space for yourself. Celebrate gently, without pressure.':(cfg.mode==='weekly'?'You have recorded '+done+' day'+(done===1?'':'s')+' of kindness in this challenge. You can begin again whenever you need.':done?'You have recorded your kindness for today.':'When you are ready, record one small act of kindness today.');const todayEntry=entries.find(e=>e.date===today&&e.startDate===cfg.startDate);if(todayEntry&&document.activeElement!==document.getElementById('kindnessEntry'))document.getElementById('kindnessEntry').value=todayEntry.text;const host=document.getElementById('kindnessHistory');host.innerHTML='';const history=entries.slice().sort((a,b)=>b.date.localeCompare(a.date));if(!history.length){host.innerHTML='<p class="small">Your reflections will appear here after you save one.</p>';return}history.forEach(e=>{const card=document.createElement('div');card.className='diaryentry';const meta=document.createElement('div');meta.className='small';meta.textContent=new Date(e.date+'T12:00:00').toLocaleDateString()+' · '+e.prompt;const body=document.createElement('p');body.textContent=e.text;card.append(meta,body);host.append(card)})}
+function setDisplayScale(scale){document.body.style.zoom=String(scale);localStorage.setItem('innerLightDisplayScale',String(scale))}
+function saveContentPreference(){const value=document.getElementById('contentPreference').value;localStorage.setItem('innerLightContentPreference',value);document.getElementById('preferenceStatus').textContent='Preference saved. In this prototype it is a reminder for future personalisation; it does not yet filter content automatically.'}
+function loadPersonalSettings(){const scale=Number(localStorage.getItem('innerLightDisplayScale')||1);document.body.style.zoom=String([1,1.1,1.2].includes(scale)?scale:1);document.getElementById('contentPreference').value=localStorage.getItem('innerLightContentPreference')||'balanced'}
+function exportMyData(){const data={exportedAt:new Date().toISOString(),writtenDiary:getDiaryEntries(),kindnessChallenge:{config:getChallengeConfig(),entries:getKindnessEntries()},note:'This export includes written diary and kindness challenge data. Voice recordings are stored separately in browser storage and are not included in this JSON export.'};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='inner-light-my-data.json';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);document.getElementById('privacyStatus').textContent='Your written diary and challenge data export has been prepared. Voice recordings are not included.'}
+async function clearAllLocalData(){if(!confirm('Delete Inner Light data saved in this browser? This removes written diary entries, voice recordings, challenge reflections, and saved preferences. This cannot be undone.'))return;try{const db=await openDiaryDB();await new Promise((resolve,reject)=>{const tx=db.transaction('voiceEntries','readwrite');tx.objectStore('voiceEntries').clear();tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)});db.close()}catch(e){}localStorage.clear();document.getElementById('privacyStatus').textContent='Local app data has been cleared. Refresh the page to reset all sections.'}
+
+document.getElementById("date").textContent=new Date().toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"});
+document.getElementById("heroQuote").textContent=pick(quotes);
+document.getElementById("prompt").textContent=pick(prompts);document.getElementById("diaryPrompt").textContent=document.getElementById("prompt").textContent;
+renderMoods("miniMoods");renderMoods("allMoods");renderSounds();newAffirmation();newSpiritual();newBodyQuote();setTheme(localStorage.getItem("innerLightTheme")||"sage");
+document.getElementById("astro").textContent="Today’s theme: slow down, notice your inner world, and choose one grounded action that supports your wellbeing.";
+renderDiaryEntries();loadReminderSettings();renderKindnessChallenge();loadPersonalSettings();
+</script>
+</body>
+</html>
